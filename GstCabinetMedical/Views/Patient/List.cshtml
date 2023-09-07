@@ -1,0 +1,46 @@
+﻿@model List<Patient>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th> Numero Patient</th>
+                            <th> Nom Patient </th>
+                            <th> Prenom Patient </th>
+                            <th> Adresse </th>
+                            <th> Email </th>
+                            <th> Telephone </th>
+                            <th> Sexe </th>
+                            <th> Date Naissance </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Patient patient in Model)
+                        {
+                            <tr>
+                                <td class="py-1">
+                                    <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
+                                </td>
+                                <td> @patient.Id</td>
+                                <td>
+                                    @patient.Nom
+                                </td>
+                                <td> @patient.Prenom </td>
+                                <td> @patient.Adresse</td>
+                                <td> @patient.Email</td>
+                                <td> @patient.Telephone</td>
+                                <td> @patient.Sexe</td>
+                                <td> @(patient.DateNaissance?.ToString("dd-MM-yyyy"))</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

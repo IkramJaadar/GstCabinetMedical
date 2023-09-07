@@ -1,0 +1,78 @@
+﻿@model List<Disponibilite>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card mb">
+            <div class="card-body">
+                <a href="/Disponibilite/Add" class="text-success">
+                    <i class="mdi mdi-calendar-plus"></i>
+                </a>
+                <div class="table-responsive">
+                    <table class="table" cellspacing="0">
+
+                        <thead>
+                            <tr>
+                                <th>
+                                </th>
+                                @{
+                                    int annee = DateTime.Now.Year;
+                                    int mois = DateTime.Now.Month;
+                                    int nombreJours = DateTime.DaysInMonth(annee, mois);
+                                }
+                                @for (int i = DateTime.Now.Day; i <= nombreJours; i++)
+                                {
+                                    <th>
+                                        <center>
+                                            @DateTime.Now.AddDays(i-DateTime.Now.Day).ToString("dddd")<br />
+                                            @DateTime.Now.AddDays(i-DateTime.Now.Day).ToString("dd-MM-yyyy")
+                                        </center>
+                                    </th>
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var horraire = Model.Select(h => new { h.Horraire }).Distinct().OrderBy(h => h.Horraire).ToList();
+                            }
+                            @foreach (var dispo in horraire)
+                            {
+                                <tr>
+                                    <td>
+                                        @dispo.Horraire
+                                    </td>
+
+                                    @for (int i = DateTime.Now.Day; i <= nombreJours; i++)
+                                    {
+                                        var disp = Model.Where(d => d.Horraire == dispo.Horraire && d.DateRendezvous.Year == DateTime.Now.AddDays(i - DateTime.Now.Day).Year && d.DateRendezvous.Month == DateTime.Now.AddDays(i - DateTime.Now.Day).Month && d.DateRendezvous.Day == DateTime.Now.AddDays(i - DateTime.Now.Day).Day).FirstOrDefault();
+                                        if (disp != null)
+                                        {
+                                            <td>
+                                                <span class="badge badge-success">Disponible</span>
+                                                <a href="/Disponibilite/Delete/@disp.Id" class="text-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <span class="badge badge-danger">Non disponible</span>
+                                            </td>
+                                        }
+                                    }
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //optimiser sidebar
+    document.body.classList.add("sidebar-icon-only");
+</script>
+
